@@ -1,0 +1,222 @@
+<div class="admin-page py-5">
+  <div class="container" style="padding-top: 80px;">
+    <h2 class="fw-bold mb-4"><i class="bi bi-gear me-2"></i>Admin Panel</h2>
+
+    <!-- Tabs -->
+    <ul class="nav nav-tabs mb-4">
+      <li class="nav-item">
+        <a class="nav-link" [class.active]="activeTab === 'barbers'" (click)="setTab('barbers')" style="cursor:pointer">
+          <i class="bi bi-people me-1"></i>Borbélyok
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [class.active]="activeTab === 'bookings'" (click)="setTab('bookings')" style="cursor:pointer">
+          <i class="bi bi-calendar-check me-1"></i>Foglalások
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [class.active]="activeTab === 'hairstyles'" (click)="setTab('hairstyles')" style="cursor:pointer">
+          <i class="bi bi-scissors me-1"></i>Hajstílusok
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [class.active]="activeTab === 'gallery'" (click)="setTab('gallery')" style="cursor:pointer">
+          <i class="bi bi-images me-1"></i>Galéria
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [class.active]="activeTab === 'users'" (click)="setTab('users')" style="cursor:pointer">
+          <i class="bi bi-person-gear me-1"></i>Felhasználók
+        </a>
+      </li>
+    </ul>
+
+    <!-- Borbélyok Tab -->
+    <div *ngIf="activeTab === 'barbers'">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4>Borbélyok</h4>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead class="table-dark">
+            <tr>
+              <th>ID</th>
+              <th>Név</th>
+              <th>Specializáció</th>
+              <th>Műveletek</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let barber of barbers">
+              <td>{{ barber.id }}</td>
+              <td>{{ barber.name }}</td>
+              <td>{{ barber.specialization || '-' }}</td>
+              <td>
+                <button class="btn btn-sm btn-outline-danger" (click)="deleteBarber(barber.id)">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Foglalások Tab -->
+    <div *ngIf="activeTab === 'bookings'">
+      <h4 class="mb-3">Foglalások</h4>
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead class="table-dark">
+            <tr>
+              <th>ID</th>
+              <th>Borbély</th>
+              <th>Ügyfél</th>
+              <th>E-mail</th>
+              <th>Időpont</th>
+              <th>Időtartam</th>
+              <th>Státusz</th>
+              <th>Műveletek</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let booking of bookings">
+              <td>{{ booking.id }}</td>
+              <td>{{ booking.barber?.name || '-' }}</td>
+              <td>{{ booking.customer_name }}</td>
+              <td>{{ booking.customer_email }}</td>
+              <td>{{ booking.start_at | date:'yyyy.MM.dd HH:mm' }}</td>
+              <td>{{ booking.duration_min }} perc</td>
+              <td>
+                <span class="badge" [ngClass]="getStatusBadgeClass(booking.status)">
+                  {{ getStatusLabel(booking.status) }}
+                </span>
+              </td>
+              <td>
+                <button class="btn btn-sm btn-outline-danger" (click)="deleteBooking(booking.id)"
+                  *ngIf="booking.status !== 'cancelled'">
+                  <i class="bi bi-x-circle me-1"></i>Lemondás
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Hajstílusok Tab -->
+    <div *ngIf="activeTab === 'hairstyles'">
+      <h4 class="mb-3">Hajstílusok</h4>
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead class="table-dark">
+            <tr>
+              <th>ID</th>
+              <th>Név</th>
+              <th>Leírás</th>
+              <th>Ár (Ft-tól)</th>
+              <th>Műveletek</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let style of hairstyles">
+              <td>{{ style.id }}</td>
+              <td>{{ style.name }}</td>
+              <td>{{ style.description || '-' }}</td>
+              <td>{{ style.price_from || '-' }}</td>
+              <td>
+                <button class="btn btn-sm btn-outline-danger" (click)="deleteHairstyle(style.id)">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Galéria Tab -->
+    <div *ngIf="activeTab === 'gallery'">
+      <h4 class="mb-3">Galéria</h4>
+      <div class="row g-3">
+        <div class="col-6 col-md-3" *ngFor="let img of galleryImages">
+          <div class="card border-0 shadow-sm">
+            <img [src]="img.image_url" class="card-img-top" [alt]="img.title || ''" style="height: 150px; object-fit: cover;" />
+            <div class="card-body p-2 text-center">
+              <small>{{ img.title || 'Kép' }}</small>
+              <button class="btn btn-sm btn-outline-danger d-block mx-auto mt-1" (click)="deleteGalleryImage(img.id)">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Felhasználók Tab -->
+    <div *ngIf="activeTab === 'users'">
+      <h4 class="mb-3">Felhasználók</h4>
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead class="table-dark">
+            <tr>
+              <th>ID</th>
+              <th>Név</th>
+              <th>E-mail</th>
+              <th>Szerepkör</th>
+              <th>E-mail megerősítve</th>
+              <th>Műveletek</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of users">
+              <td>{{ user.id }}</td>
+              <td>{{ user.name }}</td>
+              <td>{{ user.email }}</td>
+              <td>
+                <ng-container *ngIf="editingUser?.id === user.id; else showRole">
+                  <select class="form-select form-select-sm" [(ngModel)]="editUserRole" style="width: 120px;">
+                    <option value="user">Felhasználó</option>
+                    <option value="barber">Borbély</option>
+                    <option value="admin">Admin</option>
+                  </select>
+                </ng-container>
+                <ng-template #showRole>
+                  <span class="badge"
+                    [ngClass]="{
+                      'bg-secondary': user.role === 'user',
+                      'bg-primary': user.role === 'barber',
+                      'bg-danger': user.role === 'admin'
+                    }">
+                    {{ user.role === 'admin' ? 'Admin' : user.role === 'barber' ? 'Borbély' : 'Felhasználó' }}
+                  </span>
+                </ng-template>
+              </td>
+              <td>
+                <i class="bi" [ngClass]="user.email_verified_at ? 'bi-check-circle-fill text-success' : 'bi-x-circle-fill text-danger'"></i>
+              </td>
+              <td>
+                <ng-container *ngIf="editingUser?.id === user.id; else showActions">
+                  <button class="btn btn-sm btn-success me-1" (click)="saveUserRole()">
+                    <i class="bi bi-check"></i>
+                  </button>
+                  <button class="btn btn-sm btn-secondary" (click)="cancelEditUser()">
+                    <i class="bi bi-x"></i>
+                  </button>
+                </ng-container>
+                <ng-template #showActions>
+                  <button class="btn btn-sm btn-outline-primary me-1" (click)="startEditUser(user)">
+                    <i class="bi bi-pencil"></i>
+                  </button>
+                  <button class="btn btn-sm btn-outline-danger" (click)="deleteUser(user.id)">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </ng-template>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

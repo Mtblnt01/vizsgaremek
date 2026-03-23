@@ -1,0 +1,110 @@
+<div class="auth-page d-flex align-items-center justify-content-center min-vh-100">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-5">
+        <div class="card shadow-lg border-0">
+          <div class="card-body p-5">
+            <div class="text-center mb-4">
+              <i class="bi bi-person-plus display-4 text-dark"></i>
+              <h3 class="mt-2 fw-bold">Regisztráció</h3>
+              <p class="text-muted">Hozd létre a fiókodat</p>
+            </div>
+
+            <div *ngIf="successMessage" class="alert alert-success">
+              <i class="bi bi-check-circle me-1"></i>{{ successMessage }}
+              <div class="mt-2">
+                <a routerLink="/login" class="btn btn-sm btn-success">Bejelentkezés</a>
+              </div>
+            </div>
+
+            <div *ngIf="errorMessage" class="alert alert-danger">
+              <i class="bi bi-exclamation-triangle me-1"></i>{{ errorMessage }}
+            </div>
+
+            <form (ngSubmit)="onSubmit()" *ngIf="!successMessage">
+              <div class="mb-3">
+                <label for="name" class="form-label">Teljes név</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-person"></i></span>
+                  <input
+                    type="text"
+                    class="form-control"
+                    [class.is-invalid]="errors['name']"
+                    id="name"
+                    [(ngModel)]="name"
+                    name="name"
+                    placeholder="Kovács János"
+                    required
+                  />
+                </div>
+                <div class="invalid-feedback d-block" *ngIf="errors['name']">{{ errors['name'][0] }}</div>
+              </div>
+
+              <div class="mb-3">
+                <label for="email" class="form-label">E-mail cím</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                  <input
+                    type="email"
+                    class="form-control"
+                    [class.is-invalid]="errors['email']"
+                    id="email"
+                    [(ngModel)]="email"
+                    name="email"
+                    placeholder="pelda@email.hu"
+                    required
+                  />
+                </div>
+                <div class="invalid-feedback d-block" *ngIf="errors['email']">{{ errors['email'][0] }}</div>
+              </div>
+
+              <div class="mb-3">
+                <label for="password" class="form-label">Jelszó</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                  <input
+                    type="password"
+                    class="form-control"
+                    [class.is-invalid]="errors['password']"
+                    id="password"
+                    [(ngModel)]="password"
+                    name="password"
+                    placeholder="••••••••"
+                    required
+                  />
+                </div>
+                <div class="invalid-feedback d-block" *ngIf="errors['password']">{{ errors['password'][0] }}</div>
+              </div>
+
+              <div class="mb-4">
+                <label for="passwordConfirmation" class="form-label">Jelszó megerősítés</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="passwordConfirmation"
+                    [(ngModel)]="passwordConfirmation"
+                    name="passwordConfirmation"
+                    placeholder="••••••••"
+                    required
+                  />
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-dark w-100 py-2" [disabled]="loading">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
+                Regisztráció
+              </button>
+            </form>
+
+            <div class="text-center mt-4">
+              <span class="text-muted">Már van fiókod?</span>
+              <a routerLink="/login" class="ms-1 text-decoration-none fw-bold">Bejelentkezés</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

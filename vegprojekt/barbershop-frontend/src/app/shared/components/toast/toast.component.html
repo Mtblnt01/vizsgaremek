@@ -1,0 +1,12 @@
+<div *ngIf="message" class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
+  <div class="toast show text-white" [ngClass]="bgClass" role="alert">
+    <div class="toast-header" [ngClass]="bgClass">
+      <i class="bi me-2" [ngClass]="iconClass"></i>
+      <strong class="me-auto text-white">Értesítés</strong>
+      <button type="button" class="btn-close btn-close-white" (click)="dismiss()"></button>
+    </div>
+    <div class="toast-body">
+      {{ message.text }}
+    </div>
+  </div>
+</div>

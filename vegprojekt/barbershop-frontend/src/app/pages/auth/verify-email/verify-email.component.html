@@ -1,0 +1,30 @@
+<div class="auth-page d-flex align-items-center justify-content-center min-vh-100">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-5">
+        <div class="card shadow-lg border-0">
+          <div class="card-body p-5 text-center">
+            <div *ngIf="loading">
+              <div class="spinner-border text-dark mb-3" role="status"></div>
+              <p>E-mail megerősítés folyamatban...</p>
+            </div>
+
+            <div *ngIf="successMessage">
+              <i class="bi bi-check-circle-fill display-1 text-success"></i>
+              <h3 class="mt-3 fw-bold">Sikeres megerősítés!</h3>
+              <p class="text-muted">{{ successMessage }}</p>
+              <a routerLink="/login" class="btn btn-dark mt-3">Bejelentkezés</a>
+            </div>
+
+            <div *ngIf="errorMessage">
+              <i class="bi bi-x-circle-fill display-1 text-danger"></i>
+              <h3 class="mt-3 fw-bold">Hiba történt</h3>
+              <p class="text-muted">{{ errorMessage }}</p>
+              <a routerLink="/" class="btn btn-outline-dark mt-3">Vissza a főoldalra</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

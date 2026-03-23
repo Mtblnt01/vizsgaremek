@@ -1,0 +1,108 @@
+<div class="booking-page py-5">
+  <div class="container" style="padding-top: 80px;">
+    <!-- Loading -->
+    <div *ngIf="loadingBarber" class="text-center py-5">
+      <div class="spinner-border text-dark" role="status"></div>
+    </div>
+
+    <!-- Barber Header -->
+    <div *ngIf="barber" class="text-center mb-5">
+      <div class="barber-avatar mb-3">
+        <img *ngIf="barber.photo_url" [src]="barber.photo_url" [alt]="barber.name" class="rounded-circle" width="120" height="120" />
+        <i *ngIf="!barber.photo_url" class="bi bi-person-circle display-1 text-muted"></i>
+      </div>
+      <h2 class="fw-bold">Időpontfoglalás</h2>
+      <h4 class="text-muted">{{ barber.name }}</h4>
+      <span class="badge bg-dark" *ngIf="barber.specialization">{{ barber.specialization }}</span>
+    </div>
+
+    <!-- Form -->
+    <div class="row justify-content-center" *ngIf="barber">
+      <div class="col-md-7">
+        <div class="card shadow-sm border-0">
+          <div class="card-body p-4">
+
+            <div *ngIf="errorMessage" class="alert alert-danger">
+              <i class="bi bi-exclamation-triangle me-1"></i>{{ errorMessage }}
+            </div>
+
+            <form (ngSubmit)="onSubmit()">
+              <div class="mb-3">
+                <label for="customerName" class="form-label">Teljes név *</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-person"></i></span>
+                  <input type="text" class="form-control" [class.is-invalid]="errors['customer_name']"
+                    id="customerName" [(ngModel)]="customerName" name="customerName" placeholder="Kovács János" required />
+                </div>
+                <div class="invalid-feedback d-block" *ngIf="errors['customer_name']">{{ errors['customer_name'][0] }}</div>
+              </div>
+
+              <div class="mb-3">
+                <label for="customerEmail" class="form-label">E-mail cím *</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                  <input type="email" class="form-control" [class.is-invalid]="errors['customer_email']"
+                    id="customerEmail" [(ngModel)]="customerEmail" name="customerEmail" placeholder="pelda@email.hu" required />
+                </div>
+                <div class="invalid-feedback d-block" *ngIf="errors['customer_email']">{{ errors['customer_email'][0] }}</div>
+              </div>
+
+              <div class="mb-3">
+                <label for="customerPhone" class="form-label">Telefonszám *</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-telephone"></i></span>
+                  <input type="tel" class="form-control" [class.is-invalid]="errors['customer_phone']"
+                    id="customerPhone" [(ngModel)]="customerPhone" name="customerPhone" placeholder="+36 30 123 4567" required />
+                </div>
+                <div class="invalid-feedback d-block" *ngIf="errors['customer_phone']">{{ errors['customer_phone'][0] }}</div>
+              </div>
+
+              <div class="row mb-3">
+                <div class="col-md-7">
+                  <label for="startAt" class="form-label">Időpont *</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-calendar-event"></i></span>
+                    <input type="datetime-local" class="form-control" [class.is-invalid]="errors['start_at']"
+                      id="startAt" [(ngModel)]="startAt" name="startAt" required />
+                  </div>
+                  <div class="invalid-feedback d-block" *ngIf="errors['start_at']">{{ errors['start_at'][0] }}</div>
+                </div>
+                <div class="col-md-5">
+                  <label for="durationMin" class="form-label">Időtartam</label>
+                  <select class="form-select" id="durationMin" [(ngModel)]="durationMin" name="durationMin">
+                    <option [value]="30">30 perc</option>
+                    <option [value]="45">45 perc</option>
+                    <option [value]="60">60 perc</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="mb-3" *ngIf="hairstyles.length > 0">
+                <label for="hairstyle" class="form-label">Hajstílus (opcionális)</label>
+                <select class="form-select" id="hairstyle" [(ngModel)]="selectedHairstyle" name="selectedHairstyle">
+                  <option [ngValue]="null">-- Válassz hajstílust --</option>
+                  <option *ngFor="let style of hairstyles" [ngValue]="style.id">
+                    {{ style.name }}
+                    <span *ngIf="style.price_from"> - {{ style.price_from }} Ft-tól</span>
+                  </option>
+                </select>
+              </div>
+
+              <div class="mb-4">
+                <label for="note" class="form-label">Megjegyzés (opcionális)</label>
+                <textarea class="form-control" id="note" [(ngModel)]="note" name="note" rows="3"
+                  placeholder="Pl.: allergia, különleges kérés..."></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-dark w-100 py-2 btn-book" [disabled]="loading">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
+                <i class="bi bi-check-circle me-1" *ngIf="!loading"></i>
+                Foglalás véglegesítése
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

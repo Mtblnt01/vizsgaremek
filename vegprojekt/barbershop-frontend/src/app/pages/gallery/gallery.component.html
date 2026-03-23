@@ -1,0 +1,45 @@
+<div class="gallery-page py-5">
+  <div class="container" style="padding-top: 80px;">
+    <div class="text-center mb-5">
+      <h2 class="fw-bold"><i class="bi bi-images me-2"></i>Galéria</h2>
+      <p class="text-muted">Munkáink – inspirálódj és válaszd ki a kedvencedet!</p>
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="loading" class="text-center py-5">
+      <div class="spinner-border text-dark" role="status"></div>
+    </div>
+
+    <!-- Grid -->
+    <div class="row g-4" *ngIf="!loading">
+      <div class="col-6 col-md-4 col-lg-3" *ngFor="let image of images">
+        <div class="gallery-item" (click)="openImage(image)">
+          <img [src]="image.image_url" [alt]="image.title || 'Galéria kép'" class="img-fluid rounded" />
+          <div class="gallery-overlay">
+            <span *ngIf="image.title">{{ image.title }}</span>
+          </div>
+        </div>
+        <small class="text-muted d-block mt-1" *ngIf="image.source">
+          <i class="bi bi-camera me-1"></i>{{ image.source }}
+        </small>
+      </div>
+    </div>
+
+    <div *ngIf="!loading && images.length === 0" class="text-center py-5">
+      <i class="bi bi-image display-1 text-muted"></i>
+      <p class="mt-3 text-muted">Még nincsenek képek a galériában.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" *ngIf="selectedImage" (click)="closeImage()">
+  <div class="lightbox-content" (click)="$event.stopPropagation()">
+    <button class="btn-close btn-close-white position-absolute top-0 end-0 m-3" (click)="closeImage()"></button>
+    <img [src]="selectedImage.image_url" [alt]="selectedImage.title || ''" class="img-fluid" />
+    <div class="lightbox-info mt-3 text-center text-white" *ngIf="selectedImage.title || selectedImage.source">
+      <h5 *ngIf="selectedImage.title">{{ selectedImage.title }}</h5>
+      <small *ngIf="selectedImage.source"><i class="bi bi-camera me-1"></i>{{ selectedImage.source }}</small>
+    </div>
+  </div>
+</div>

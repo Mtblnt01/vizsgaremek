@@ -1,0 +1,75 @@
+<div class="auth-page d-flex align-items-center justify-content-center min-vh-100">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-5">
+        <div class="card shadow-lg border-0">
+          <div class="card-body p-5">
+            <div class="text-center mb-4">
+              <i class="bi bi-scissors display-4 text-dark"></i>
+              <h3 class="mt-2 fw-bold">Bejelentkezés</h3>
+              <p class="text-muted">Jelentkezz be a foglaláshoz</p>
+            </div>
+
+            <div *ngIf="errorMessage" class="alert alert-danger">
+              <i class="bi bi-exclamation-triangle me-1"></i>{{ errorMessage }}
+            </div>
+
+            <form (ngSubmit)="onSubmit()">
+              <div class="mb-3">
+                <label for="email" class="form-label">E-mail cím</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    [(ngModel)]="email"
+                    name="email"
+                    placeholder="pelda@email.hu"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="password" class="form-label">Jelszó</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="password"
+                    [(ngModel)]="password"
+                    name="password"
+                    placeholder="••••••••"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="d-flex justify-content-between align-items-center mb-4">
+                <a routerLink="/forgot-password" class="small text-decoration-none">Elfelejtett jelszó?</a>
+              </div>
+
+              <button type="submit" class="btn btn-dark w-100 py-2" [disabled]="loading">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
+                Bejelentkezés
+              </button>
+            </form>
+
+            <div class="text-center mt-4">
+              <span class="text-muted">Még nincs fiókod?</span>
+              <a routerLink="/register" class="ms-1 text-decoration-none fw-bold">Regisztráció</a>
+            </div>
+
+            <div class="text-center mt-2">
+              <a routerLink="/" class="small text-muted text-decoration-none">
+                <i class="bi bi-arrow-left me-1"></i>Tovább vendégként
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

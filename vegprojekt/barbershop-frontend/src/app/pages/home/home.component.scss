@@ -1,0 +1,45 @@
+.hero-section {
+  min-height: 100vh;
+  position: relative;
+  background: url('/assets/hero-bg.jpg') center/cover no-repeat;
+  background-color: #1a1a2e;
+
+  .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+  }
+
+  .display-3 {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  }
+}
+
+.btn-gold {
+  background: #c8a97e;
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  padding: 12px 35px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: #b8955e;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(200, 169, 126, 0.4);
+  }
+}
+
+.text-gold {
+  color: #c8a97e !important;
+}
+
+#barbers {
+  scroll-margin-top: 80px;
+}

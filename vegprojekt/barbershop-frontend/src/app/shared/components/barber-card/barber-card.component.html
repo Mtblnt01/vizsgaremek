@@ -1,0 +1,28 @@
+<div class="card barber-card h-100 shadow-sm">
+  <div class="card-img-top-wrapper">
+    <img
+      *ngIf="barber.photo_url"
+      [src]="barber.photo_url"
+      [alt]="barber.name"
+      class="card-img-top"
+    />
+    <div *ngIf="!barber.photo_url" class="card-img-top placeholder-img d-flex align-items-center justify-content-center">
+      <i class="bi bi-person-circle display-1 text-muted"></i>
+    </div>
+  </div>
+  <div class="card-body text-center">
+    <h5 class="card-title">{{ barber.name }}</h5>
+    <p class="card-text text-muted" *ngIf="barber.specialization">
+      <i class="bi bi-star me-1"></i>{{ barber.specialization }}
+    </p>
+    <p class="card-text small" *ngIf="barber.bio">{{ barber.bio }}</p>
+    <div *ngIf="nextSlot" class="mt-2">
+      <small class="text-success">
+        <i class="bi bi-clock me-1"></i>Legkorábbi: {{ nextSlot | date:'yyyy.MM.dd HH:mm' }}
+      </small>
+    </div>
+    <a [routerLink]="['/booking', barber.id]" class="btn btn-outline-dark mt-3">
+      <i class="bi bi-calendar-plus me-1"></i>Időpontfoglalás
+    </a>
+  </div>
+</div>

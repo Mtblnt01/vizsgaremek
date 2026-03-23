@@ -1,0 +1,24 @@
+.about-page {
+  min-height: 100vh;
+  background: #f8f9fa;
+
+  .btn-dark {
+    &:hover {
+      background: #c8a97e;
+      border-color: #c8a97e;
+    }
+  }
+
+  .card {
+    border-radius: 16px;
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+    }
+  }
+
+  .credits-section {
+    border-radius: 16px;
+  }
+}
